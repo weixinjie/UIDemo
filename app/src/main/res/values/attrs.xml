@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RippleView">
+        <attr name="centerX" format="integer" />
+        <attr name="centerY" format="integer" />
+        <attr name="circleRadius" format="float" />
+        <attr name="circleWidth" format="integer" />
+        <!--动画持续的时间-->
+        <attr name="progressDuration" format="float" />
+        <attr name="rippleWidth" format="integer" />
+        <attr name="textSize" format="float" />
+
+        <attr name="rippleMaxRadius" format="float" />
+        <attr name="rippleMinRadius" format="float" />
+        <attr name="rippleMinAlpha" format="float" />
+        <attr name="rippleMaxAlpha" format="float" />
+    </declare-styleable>
+</resources>

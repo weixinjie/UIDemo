@@ -19,10 +19,10 @@ import android.graphics.SweepGradient;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import will.github.com.uidemo.R;
@@ -45,7 +45,7 @@ public class MiSportView extends View {
     /**
      * 星星的数量
      */
-    private int starCount = 5;
+    private int starCount = 10;
 
     /**
      * 圆环半径占Canvas的比例
@@ -66,6 +66,9 @@ public class MiSportView extends View {
     private float mScaleX;
     private float mScaleY;
 
+    private ArrayList<MCustomLine> mCustomLines;
+    private ArrayList<MStar> mStars;
+
     public MiSportView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -82,7 +85,6 @@ public class MiSportView extends View {
      */
     public void setMScaleX(float mScaleX) {
         this.mScaleX = mScaleX;
-        Log.e("--------", "set已经调用了额");
     }
 
     public float getMScaleY() {
@@ -177,43 +179,62 @@ public class MiSportView extends View {
         canvas.save();
         int canvasWidth = canvas.getWidth();
         int canvasHeight = canvas.getHeight();
-        SweepGradient sweepGradient = new SweepGradient(canvasWidth / 2, canvasHeight / 2, colorBegin, colorEnd); //绘制颜色渐变
+
+        //这个地方的颜色渐变需要begin跟end需要更换位置
+        SweepGradient sweepGradient = new SweepGradient(canvasWidth / 2, canvasHeight / 2, colorEnd, colorBegin); //绘制颜色渐变
         circlePaint.setShader(sweepGradient);
         Random random = new Random();
 
-        float left = canvasWidth / 2 - (canvasWidth * circleRate) / 2;
-        float right = canvasWidth / 2 + (canvasWidth * circleRate) / 2;
-        float top = canvasWidth / 2 - (canvasWidth * circleRate) / 2;
-        float bottom = canvasWidth / 2 + (canvasWidth * circleRate) / 2;
-
-        canvas.rotate(degress % 360, left + (right - left) / 2, top + (bottom - top) / 2); //一定要先旋转后绘制
-        for (int i = 0; i < circleCount; i++) {
-            float left_1 = canvasWidth / 2 - (canvasWidth * circleRate) / 2 - i * 5;
-            float right_1 = canvasWidth / 2 + (canvasWidth * circleRate) / 2 - i * 5;
-            float top_1 = canvasWidth / 2 - (canvasWidth * circleRate) / 2 + i * 3;
-            float bottom_1 = canvasWidth / 2 + (canvasWidth * circleRate) / 2 + i * 3;
-            RectF rectF = new RectF(left_1, top_1, right_1, bottom_1);
-            canvas.drawArc(rectF, i * 2, 360 - i * 3, false, circlePaint);
+        canvas.rotate(degress % 360, canvasWidth / 2, canvasHeight / 2); //一定要先旋转后绘制
+        if (mCustomLines == null) {
+            mCustomLines = new ArrayList<>();
+            for (int i = 0; i < circleCount; i++) {
+                MCustomLine mCustomLine = new MCustomLine(canvasWidth / 2, canvasHeight / 2, (int) (canvasWidth * circleRate) / 2);
+                mCustomLines.add(mCustomLine);
+            }
         }
-        float pointX = canvasWidth / 2 + (canvasWidth * circleRate) / 2;
-        float pointY = canvasWidth / 2;
 
+        for (MCustomLine mCustomLine : mCustomLines) {
+            RectF rectF = mCustomLine.getRectF();
+            //绘制N个弧形形成大圆环
+            canvas.drawArc(rectF, mCustomLine.getStartAngle(), 330, false, circlePaint);
+        }
+
+        float pointX = canvasWidth / 2 + (canvasWidth * circleRate) / 2;
+        float pointY = canvasHeight / 2;
         starPaint = new Paint();
         starPaint.setAntiAlias(true);
         starPaint.setStrokeCap(Paint.Cap.ROUND);
-        starPaint.setColor(Color.RED);
-        for (int i = 0; i < starCount; i++) {
-            int strokeWidth = random.nextInt(5);
-            int x = random.nextInt(20) - 10;
-            int y = -random.nextInt(100 + 30);
-            float paintWidth = 50 + y / 2;
-            starPaint.setStrokeWidth(paintWidth);
-            float alpha = 1 - (300 + y) / 300;
-            int alphaMask = ((int) (alpha * 0xff)) << 24;
-            int transparentColor = (Color.WHITE & 0x00ffffff) + alphaMask;
-            starPaint.setColor(transparentColor);
-            canvas.drawPoint(pointX + x, pointY + y, starPaint);
+
+        //开始绘制star
+        if (mStars == null) {
+            mStars = new ArrayList<>();
+            for (int i = 0; i < starCount; i++) {
+                MStar mStar = new MStar(pointX, pointY);
+                mStars.add(mStar);
+            }
         }
+        for (MStar mStar : mStars) {
+            starPaint.setStrokeWidth(mStar.getmPaintWidth());
+            starPaint.setAlpha((int) mStar.getmAlpha());
+            starPaint.setColor(Color.WHITE);
+            canvas.drawPoint(mStar.getmPointX(), mStar.getmPointY(), starPaint);
+        }
+        mStars = null;
+
+//        for (int i = 0; i < starCount; i++) {
+//            int strokeWidth = random.nextInt(5);
+//            int x = random.nextInt(20) - 10;
+//            int y = -random.nextInt(100 + 30);
+//            float paintWidth = 50 + y / 2;
+//            starPaint.setStrokeWidth(paintWidth);
+//            float alpha = 1 - (300 + y) / 300;
+//            int alphaMask = ((int) (alpha * 0xff)) << 24;
+//            int transparentColor = (Color.WHITE & 0x00ffffff) + alphaMask;
+//            starPaint.setColor(transparentColor);
+//            canvas.drawPoint(pointX + x, pointY + y, starPaint);
+//        }
+        pointPaint.setStrokeWidth(MStar.MAX_POINT);
         canvas.drawPoint(pointX, pointY, pointPaint);
 
         degress += 3;
@@ -355,5 +376,127 @@ public class MiSportView extends View {
         objectAnimator2.start();
     }
 
+
+    /**
+     * 第一个页面的弧形
+     */
+
+    public class MCustomLine {
+        private int centerYOffset = 0;
+        /**
+         * 随机数生成算法
+         */
+        private Random random = null;
+
+        private RectF rectF = null;
+
+        private float startAngle = 0;
+
+        /**
+         * @param centerX 圆心X坐标
+         * @param centerY 圆心Y坐标
+         * @param rate    半径
+         */
+        public MCustomLine(int centerX, int centerY, int rate) {
+            random = new Random();
+
+            rate += random.nextInt(60) - 30; //利用随机数算法把弧形打散
+            rectF = new RectF();
+            rectF.left = centerX - rate;
+            rectF.right = centerX + rate;
+            rectF.top = centerY - rate;
+            rectF.bottom = centerY + rate;
+            startAngle = random.nextInt(30);
+        }
+
+        public RectF getRectF() {
+            return rectF;
+        }
+
+        public float getStartAngle() {
+            return startAngle;
+        }
+    }
+
+    /**
+     * 定义的外层星状尾焰
+     */
+    public class MStar {
+        public static final float MAX_POINT = 30; //最大点的大小为20
+        public static final float MIN_POINT = 5; //最小点的大小为5
+        /**
+         * Y轴的最大间距为50
+         */
+        public static final float MAX_OFFSET_Y = 300;
+        /**
+         * X offset最大
+         */
+        public static final float MAX_OFFET_X = 150;
+
+        /**
+         * 最大透明度
+         */
+        public static final float MAX_ALPHA = 255;
+
+        /**
+         * 最小透明度
+         */
+        public static final float MIN_ALPHA = 10;
+        Random random;
+        private float mPointX;
+        private float mPointY;
+        private float mPaintWidth;
+        private double mAlpha;
+
+        /**
+         * 1.Y距离目标点越远 半径越小;X的偏移量越大
+         *
+         * @param pointX 核心点X轴坐标
+         * @param pointY 核心点Y轴坐标
+         */
+        public MStar(float pointX, float pointY) {
+            random = new Random();
+            int offsetY = random.nextInt((int) (MAX_OFFSET_Y + 1));
+            mPointY = pointY - offsetY;
+            //X的尾焰应该在核心点的两边
+            int currentMaxX = (int) (MAX_OFFET_X / MAX_OFFSET_Y * offsetY + 1);
+            mPointX = pointX + random.nextInt(currentMaxX * 2) - currentMaxX;
+
+            mPaintWidth = MAX_POINT;
+            mAlpha = MIN_ALPHA + ((MAX_ALPHA - MIN_ALPHA) / MAX_OFFSET_Y) * offsetY;
+        }
+
+        public float getmPointX() {
+            return mPointX;
+        }
+
+        public void setmPointX(float mPointX) {
+            this.mPointX = mPointX;
+        }
+
+        public float getmPointY() {
+            return mPointY;
+        }
+
+        public void setmPointY(float mPointY) {
+            this.mPointY = mPointY;
+        }
+
+        public float getmPaintWidth() {
+            return mPaintWidth;
+        }
+
+        public void setmPaintWidth(float mPaintWidth) {
+            this.mPaintWidth = mPaintWidth;
+        }
+
+        public double getmAlpha() {
+            return mAlpha;
+        }
+
+        public void setmAlpha(double mAlpha) {
+            this.mAlpha = mAlpha;
+        }
+    }
 
 }

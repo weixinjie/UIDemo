@@ -1,3 +1,4 @@
+
 apply plugin: 'com.android.application'
 
 android {
@@ -18,12 +19,13 @@ android {
         }
 
     }
-}
+
 
 android.applicationVariants.all { variant ->
     variant.outputs.all {
         outputFileName = "aaa.apk"
     }
+        }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

@@ -14,15 +14,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            android.applicationVariants.all { variant ->
-    variant.outputs.all {
-        outputFileName = "aaa.apk"
-    }
-}
+           }
         }
 
     }
 }
+
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "aaa.apk"
+    }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

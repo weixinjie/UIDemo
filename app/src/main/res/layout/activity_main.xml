@@ -8,8 +8,26 @@
     android:orientation="vertical"
     tools:context="will.github.com.uidemo.MainActivity">
 
-    <will.github.com.uidemo.rule_view.RuleView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <will.github.com.uidemo.custom_view.CustomVerticalLinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="200dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="weixinjie" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="weixinjie" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="weixinjie" />
+
+    </will.github.com.uidemo.custom_view.CustomVerticalLinearLayout>
 
 </LinearLayout>

@@ -20,6 +20,7 @@
         <activity android:name=".DrawTextActivity" />
         <activity android:name=".CanvasActivity" />
         <activity android:name=".ObjectAnimatorActivity_1" />
+        <activity android:name=".custom_hook.HookActivity"></activity>
     </application>
 
 </manifest>

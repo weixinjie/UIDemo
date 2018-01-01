@@ -30,4 +30,6 @@
     <color name="white1">#ffffff</color>
     <color name="white2">#4Dffffff</color>
     <color name="white3">#B3ffffff</color>
+
+    <color name="test">#00ff48</color>
 </resources>

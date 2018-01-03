@@ -1,10 +1,11 @@
-package will.github.com.uidemo;
+package will.github.com.uidemo.activitys;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import will.github.com.uidemo.R;
 import will.github.com.uidemo.custom_view.MiSportView;
 
 public class CanvasActivity extends AppCompatActivity {

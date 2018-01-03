@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="will.github.com.uidemo.PaintActivity">
+    tools:context="will.github.com.uidemo.activitys.PaintActivity">
 
     <ScrollView
         android:layout_width="match_parent"

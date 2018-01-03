@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="will.github.com.uidemo.CanvasActivity">
+    tools:context="will.github.com.uidemo.activitys.CanvasActivity">
 
     <will.github.com.uidemo.custom_view.MiSportView
         android:id="@+id/mi_sport"

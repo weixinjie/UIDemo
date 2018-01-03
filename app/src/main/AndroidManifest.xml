@@ -16,11 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PaintActivity" />
-        <activity android:name=".DrawTextActivity" />
-        <activity android:name=".CanvasActivity" />
-        <activity android:name=".ObjectAnimatorActivity_1" />
-        <activity android:name=".custom_hook.HookActivity"></activity>
+        <activity android:name=".activitys.PaintActivity" />
+        <activity android:name=".activitys.DrawTextActivity" />
+        <activity android:name=".activitys.CanvasActivity" />
+        <activity android:name=".activitys.ObjectAnimatorActivity_1" />
+        <activity android:name=".custom_hook.HookActivity" />
+        <activity android:name=".hook.HookClickActivity"></activity>
     </application>
 
 </manifest>

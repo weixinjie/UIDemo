@@ -1,7 +1,9 @@
-package will.github.com.uidemo;
+package will.github.com.uidemo.activitys;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import will.github.com.uidemo.R;
 
 public class DrawTextActivity extends AppCompatActivity {
 

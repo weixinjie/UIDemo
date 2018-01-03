@@ -1,4 +1,4 @@
-package will.github.com.uidemo.activitys;
+package will.github.com.uidemo;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -17,7 +17,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.Toast;
 
-import will.github.com.uidemo.R;
 import will.github.com.uidemo.animator.SportView;
 
 public class ObjectAnimatorActivity_1 extends AppCompatActivity {

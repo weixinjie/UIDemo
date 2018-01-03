@@ -1,4 +1,4 @@
-package will.github.com.uidemo.activitys;
+package will.github.com.uidemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

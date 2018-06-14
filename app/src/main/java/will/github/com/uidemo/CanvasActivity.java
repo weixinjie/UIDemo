@@ -26,6 +26,6 @@ public class CanvasActivity extends AppCompatActivity {
                 mi_sport.setConnect(true);
             }
         });
-
+    //加入了测试代码222
     }
 }
